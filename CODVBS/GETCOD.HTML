@@ -161,7 +161,29 @@ else
 end if
 	  
 End function 
+Function GetGPU()
+	strComputer = "." 
+Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
+Set colItems = objWMIService.ExecQuery( _
+    "SELECT * FROM Win32_VideoController",,48) 
+For Each objItem in colItems 
+   
+    CPUG=objItem.Caption
+Next
+GetGPU = CPUG 
+End Function
 
+Function GetCPU()
+strComputer = "."
+Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+Set colItems = objWMIService.ExecQuery("Select * from Win32_Processor",,48)
+For Each objItem in colItems
+
+   CPU = objItem.Name
+Next
+
+GetCPU = CPU 
+End Function
 
  
 Function DeleteAFile(filespec)
