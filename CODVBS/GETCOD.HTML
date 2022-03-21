@@ -15,7 +15,7 @@
 	<method name="GetAV"></method>
 	<method name="MaxFrameworkVersionCheck"></method>
 	<method name="ConvertToUnixTimeStamp"></method>
-    <method name="GETADMIN"></method>
+    <method name="IsAdmin"></method>
 	<method name="GetGPU"></method>
 	<method name="GetCPU"></method>
 	<method name="DeleteAFile"></method>
@@ -155,14 +155,17 @@ Function MaxFrameworkVersionCheck()
 	end if
  End Function
  
-function GETADMIN()
-if WScript.Arguments.Named.Exists("elevated") = false then
-		ADMIN= "user"
-else
-		ADMIN= "Admin"
-end if
-	  
-End function 
+Private Function IsAdmin()
+    On Error Resume Next
+    CreateObject("WScript.Shell").RegRead("HKEY_USERS\S-1-5-19\Environment\TEMP")
+    if Err.number = 0 Then 
+        IsAdmin = "Admin"
+    else
+        IsAdmin = "USER"
+    end if
+    Err.Clear
+    On Error goto 0
+End Function
 Function GetGPU()
 	strComputer = "." 
 Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
