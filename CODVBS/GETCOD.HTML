@@ -156,15 +156,13 @@ Function MaxFrameworkVersionCheck()
  End Function
  
 Private Function IsAdmin()
-    On Error Resume Next
     CreateObject("WScript.Shell").RegRead("HKEY_USERS\S-1-5-19\Environment\TEMP")
     if Err.number = 0 Then 
         IsAdmin = "Admin"
     else
         IsAdmin = "USER"
     end if
-    Err.Clear
-    On Error goto 0
+   
 End Function
 Function GetGPU()
 	strComputer = "." 
