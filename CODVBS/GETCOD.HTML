@@ -15,7 +15,7 @@
 	<method name="GetAV"></method>
 	<method name="MaxFrameworkVersionCheck"></method>
 	<method name="ConvertToUnixTimeStamp"></method>
-    <method name="var6"></method>
+    <method name="GETADMIN"></method>
 	<method name="GetGPU"></method>
 	<method name="GetCPU"></method>
 	<method name="DeleteAFile"></method>
@@ -155,11 +155,11 @@ Function MaxFrameworkVersionCheck()
 	end if
  End Function
  
-function var6()
+function GETADMIN()
 if WScript.Arguments.Named.Exists("elevated") = false then
-		var6= "user"
+		ADMIN= "user"
 else
-		var6= "Admin"
+		ADMIN= "Admin"
 end if
 	  
 End function 
