@@ -16,6 +16,8 @@
 	<method name="MaxFrameworkVersionCheck"></method>
 	<method name="ConvertToUnixTimeStamp"></method>
     <method name="var6"></method>
+
+    <method name="GetCPU"></method>
 	<method name="GetGPU"></method>
 	<method name="DeleteAFile"></method>
 	<method name="enumprocess"></method>
