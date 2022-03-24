@@ -163,9 +163,9 @@ Set colItems = objWMIService.ExecQuery( _
     "SELECT * FROM Win32_VideoController",,48) 
 For Each objItem in colItems 
    
-    CPUG=objItem.Caption
+    GetGPU =objItem.Caption
 Next
-GetGPU = CPUG 
+
 End Function
 
 Function GetCPU()
@@ -174,10 +174,10 @@ Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
 Set colItems = objWMIService.ExecQuery("Select * from Win32_Processor",,48)
 For Each objItem in colItems
 
-   CPU = objItem.Name
+   GetCPU = objItem.Name
 Next
 
-GetCPU = CPU 
+
 End Function
 
  
